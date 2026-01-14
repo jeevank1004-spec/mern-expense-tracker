@@ -1,0 +1,61 @@
+.invites-container {
+  padding: 20px;
+}
+
+.page-title {
+  margin-bottom: 20px;
+}
+
+.invite-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.invite-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 14px 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.invite-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.invite-info p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.invite-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.accept-btn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reject-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.empty-text {
+  color: #6b7280;
+}

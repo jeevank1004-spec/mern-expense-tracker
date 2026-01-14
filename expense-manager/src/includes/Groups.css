@@ -1,0 +1,101 @@
+.groups-container {
+  max-width: 900px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.group-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.group-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.group-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.group-avatar {
+  width: 44px;
+  height: 44px;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* 🔴 THIS WAS MISSING */
+.group-info h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;   /* ✅ IMPORTANT FIX */
+}
+
+.group-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.group-right {
+  display: flex;
+  align-items: center;
+}
+
+.unseen-count {
+  background: #dc2626;
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+/* 👇 THIS FIXES DESKTOP ISSUE */
+.groups-page {
+  flex: 1;
+  background: #f8fafc;
+  color: #0f172a;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.groups-container {
+  max-width: 900px;
+}
+
+/* force text color */
+.group-info h4 {
+  color: #0f172a !important;
+}
+
+.group-info p {
+  color: #64748b !important;
+}
+

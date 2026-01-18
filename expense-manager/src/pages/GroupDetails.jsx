@@ -26,6 +26,9 @@ const GroupDetails = () => {
     totalApproved: 0,
     perPerson: 0,
     pendingForMe: 0,
+    myContribution: 0,
+    haveTopay: 0,
+    finalPay: "0",
   });
 
   // approved / pending popup
@@ -45,31 +48,58 @@ const GroupDetails = () => {
     setShowListModal(true);
   };
 
+  // ✅ CORE LOGIC (FIXED)
   const calculateSummary = (data) => {
     if (!currentUser) return;
 
+    // 1️⃣ Fully approved expenses
     const fullyApproved = data.filter(
       (e) => e.pendingApproval.length === 0
     );
 
+    // 2️⃣ Total approved amount (group)
     const totalApproved = fullyApproved.reduce(
-      (sum, e) => sum + e.amount,
+      (sum, e) => sum + Number(e.amount),
       0
     );
 
+    // 3️⃣ Unique members
     const members = new Set();
-    data.forEach((e) =>
+    fullyApproved.forEach((e) =>
       e.approvedBy.forEach((u) => members.add(u._id))
     );
 
     const perPerson =
       members.size > 0 ? Math.round(totalApproved / members.size) : 0;
 
+    // 4️⃣ My contribution (approved + added by me)
+    const myContribution = fullyApproved
+      .filter((e) => e.addedBy._id === currentUser.id)
+      .reduce((sum, e) => sum + Number(e.amount), 0);
+
+    // 5️⃣ Pending approvals for me
     const pendingForMe = data.filter((e) =>
       e.pendingApproval.some((u) => u._id === currentUser.id)
     ).length;
 
-    setSummary({ totalApproved, perPerson, pendingForMe });
+    // 6️⃣ Balance calculation
+    const haveTopay = myContribution - perPerson;
+
+    let finalPay = "0";
+    if (haveTopay > 0) {
+      finalPay = `+${haveTopay}`;
+    } else if (haveTopay < 0) {
+      finalPay = `-${Math.abs(haveTopay)}`;
+    }
+
+    setSummary({
+      totalApproved,
+      perPerson,
+      pendingForMe,
+      myContribution,
+      haveTopay,
+      finalPay,
+    });
   };
 
   const fetchExpenses = async () => {
@@ -156,6 +186,18 @@ const GroupDetails = () => {
         <div className="pending-box">
           Pending for you: {summary.pendingForMe}
         </div>
+
+        <div>
+          My Contribution: ₹{summary.myContribution}
+        </div>
+
+        <div
+          className={
+            summary.haveTopay >= 0 ? "positive" : "negative"
+          }
+        >
+          Balance: {summary.finalPay}
+        </div>
       </div>
 
       {/* EXPENSE LIST */}
@@ -200,10 +242,7 @@ const GroupDetails = () => {
                   <button
                     className="view-btn"
                     onClick={() =>
-                      openUserList(
-                        "Approved By",
-                        exp.approvedBy
-                      )
+                      openUserList("Approved By", exp.approvedBy)
                     }
                   >
                     View
@@ -272,7 +311,7 @@ const GroupDetails = () => {
         />
       )}
 
-      {/* APPROVED / PENDING LIST MODAL */}
+      {/* USER LIST MODAL */}
       {showListModal && (
         <div className="modal-overlay">
           <div className="modal-card small">
